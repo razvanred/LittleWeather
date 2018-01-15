@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LittleWeather</string>
+    <string name="user">User</string>
+    <string name="username" translatable="false">Username</string>
 </resources>
