@@ -2,4 +2,6 @@
     <string name="app_name">LittleWeather</string>
     <string name="user">User</string>
     <string name="username" translatable="false">Username</string>
+    <string name="password" translatable="false">Password</string>
+    <string name="login">Login</string>
 </resources>
