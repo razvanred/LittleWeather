@@ -13,11 +13,11 @@ import java.util.*
 /**
  * Created by razva on 14/01/2018.
  */
-class GETTask : AsyncTask<String,Void,String>() {
+class GETTask : AsyncTask<String, Void, String>() {
 
-    companion object{
-        private val TAG=GETTask::class.java.name
-        private val URL_MAIN="http://api.openweathermap.org/data/2.5/weather?units=metric&lang=it&appid=${BuildConfig.OpenWeatherMapAPI}&mode=xml"
+    companion object {
+        private val TAG = GETTask::class.java.name
+        private val URL_MAIN = "http://api.openweathermap.org/data/2.5/weather?units=metric&lang=it&appid=${BuildConfig.OpenWeatherMapAPI}&mode=xml"
     }
 
     override fun doInBackground(vararg p0: String?): String? {
@@ -25,7 +25,6 @@ class GETTask : AsyncTask<String,Void,String>() {
         val build = StringBuilder()
         build.append(URL_MAIN)
         build.append(p0[0])
-        build.append(p0[1])
 
         try {
             val url = URL(build.toString().trim { it <= ' ' }.replace(" +".toRegex(), " ").replace(" ".toRegex(), "%20"))
@@ -37,19 +36,21 @@ class GETTask : AsyncTask<String,Void,String>() {
             if (connection.responseCode != 200)
             //città non trovata
                 throw IOException()
-
+            val s=StringBuilder()
             val scanner = Scanner(connection.inputStream)
-            val s = scanner.nextLine()
+            while (scanner.hasNext()) {
+                s.append(scanner.nextLine()+"\n")
+            }
 
             connection.inputStream.close()
             scanner.close()
 
-            return s
-        }catch(urlExc:MalformedURLException){
-            Log.e(TAG,"Malformed URL")
+            return s.toString()
+        } catch (urlExc: MalformedURLException) {
+            Log.e(TAG, "Malformed URL")
             return null
-        }catch(ioExc:IOException){
-            Log.e(TAG,"IO not valid")
+        } catch (ioExc: IOException) {
+            Log.e(TAG, "IO not valid")
             return null
         }
     }

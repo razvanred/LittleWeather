@@ -6,7 +6,9 @@ import android.util.Log
 import android.view.View
 import it.brunierarosu.littleweather.task.GETTask
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,8 +38,21 @@ class MainActivity : AppCompatActivity() {
         val get= GETTask()
 
         get.execute("&q=${txtusr.text}")
-
-        Log.i("RESULT",get.get(secs, TimeUnit.SECONDS))
+        try {
+            Log.i("RESULT", get.get(secs, TimeUnit.SECONDS))
+        } catch (exc: InterruptedException) {
+            //Contattare lo sviluppatore se l'errore persiste
+            Log.i("RESULT","interrupted")
+        } catch (exc: ExecutionException) {
+            Log.i("RESULT","execution")
+            Log.i("RESULT",exc.cause.toString())
+        } catch (exc: TimeoutException) {
+            Log.i("RESULT","timeout")
+        } catch (exc: NullPointerException) {
+            Log.i("RESULT","offline")
+        } catch (exc: Exception){
+            Log.i("RESULT","other")
+        }
 
     }
 }
